@@ -15,3 +15,7 @@ make-migration:
 .PHONY: update_database
 update-database:
 	migrate -path=./migrations -database=$(GREENLIGHT_DB_DSN) up
+
+.PHONY: migration-version
+migration-version:
+	migrate -path=./migrations -database=$(GREENLIGHT_DB_DSN) version
