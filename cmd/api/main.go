@@ -11,6 +11,7 @@ import (
 	"time"
 
 	_ "github.com/lib/pq"
+	"greenlight.giorgiubiria.ge/internal/data"
 )
 
 const version = "1.0.0"
@@ -60,7 +61,7 @@ func main() {
 	app := &application{
 		config: cfg,
 		logger: logger,
-    models: data.NewModels(db)
+    models: data.NewModels(db),
 	}
 
 	srv := &http.Server{
