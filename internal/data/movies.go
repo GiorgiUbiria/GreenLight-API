@@ -2,6 +2,7 @@ package data
 
 import (
 	"database/sql"
+	"errors"
 	"time"
 
 	"greenlight.giorgiubiria.ge/internal/validator"
@@ -35,7 +36,14 @@ RETURNING id, created_at, version`
 }
 
 func (m MovieModel) Get(id int64) (*Movie, error) {
-	return nil, nil
+	query := `
+  SELECT id, created_at, title, year, runtime, genres, version
+  FROM movies
+  WHERE id = $1`
+
+	args := []interface{}{movie.Title, movie.Year, movie.Runtime, pq.Array(movie.Genres)}
+
+	return m.DB.QueryRow(query, args...).Scan(&movie.ID, &movie.CreatedAt, &movie.Version)
 }
 
 func (m MovieModel) Update(movie *Movie) error {
