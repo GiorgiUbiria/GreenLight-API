@@ -1,6 +1,7 @@
 package data
 
 import (
+  "database/sql"
 	"time"
 
 	"greenlight.giorgiubiria.ge/internal/validator"
