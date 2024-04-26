@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -30,7 +31,7 @@ type config struct {
 type application struct {
 	config config
 	logger *jsonlog.Logger
-  models data.Models
+	models data.Models
 }
 
 func main() {
@@ -47,7 +48,7 @@ func main() {
 
 	flag.Parse()
 
-  logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
+	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
 
 	db, err := openDB(cfg)
 	if err != nil {
@@ -61,21 +62,22 @@ func main() {
 	app := &application{
 		config: cfg,
 		logger: logger,
-    models: data.NewModels(db),
+		models: data.NewModels(db),
 	}
 
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.port),
 		Handler:      app.routes(),
+		ErrorLog:     log.New(logger, "", 0),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
 	}
 
 	logger.PrintInfo("starting server", map[string]string{
-    "addr": srv.Addr,
-    "env": cfg.env,
-  })
+		"addr": srv.Addr,
+		"env":  cfg.env,
+	})
 
 	err = srv.ListenAndServe()
 	logger.PrintFatal(err, nil)
@@ -93,7 +95,7 @@ func openDB(cfg config) (*sql.DB, error) {
 
 	duration, err := time.ParseDuration(cfg.db.maxIdleTime)
 	if err != nil {
-    return nil, err
+		return nil, err
 	}
 
 	db.SetConnMaxIdleTime(duration)
