@@ -88,8 +88,10 @@ func main() {
 		"env":  cfg.env,
 	})
 
-	err = srv.ListenAndServe()
-	logger.PrintFatal(err, nil)
+	err = app.serve()
+	if err != nil {
+		logger.PrintFatal(err, nil)
+	}
 }
 
 func openDB(cfg config) (*sql.DB, error) {
