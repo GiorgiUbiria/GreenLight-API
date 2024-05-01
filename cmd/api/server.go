@@ -16,13 +16,10 @@ func (app *application) serve() error {
 		Addr:        fmt.Sprintf(":%d", app.config.port),
 		Handler:     app.routes(),
 		IdleTimeout: time.Minute,
-
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
 	}
 
-	// Create a shutdownError channel. We will use this to receive any errors returned
-	// by the graceful Shutdown() function.
 	shutdownError := make(chan error)
 
 	go func() {
@@ -56,5 +53,6 @@ func (app *application) serve() error {
 	app.logger.PrintInfo("Stopped server", map[string]string{
 		"addr": srv.Addr,
 	})
+
 	return srv.ListenAndServe()
 }
