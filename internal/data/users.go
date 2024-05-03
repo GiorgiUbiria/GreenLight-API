@@ -19,6 +19,8 @@ type UserModel struct {
 	DB *sql.DB
 }
 
+var AnonymousUser = &User{}
+
 type User struct {
 	ID        int64     `json:"id"`
 	CreatedAt time.Time `json:"created_at"`
@@ -200,4 +202,8 @@ AND tokens.expiry > $3`
 	}
 
 	return &user, nil
+}
+
+func (u *User) IsAnonymous() bool {
+  return u == AnonymousUser
 }
