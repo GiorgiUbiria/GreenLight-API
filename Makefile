@@ -1,5 +1,7 @@
 GO_INSTALL_PATH = $(shell go env GOPATH)
 STATICCHECK_CMD = $(GO_INSTALL_PATH)/bin/staticcheck
+current_time = $(shell date --iso-8601=seconds)
+linker_flags = '-s -X main.buildTime=${current_time}'
 
 include .envrc
 
@@ -64,5 +66,5 @@ vendor:
 .PHONY: build/api
 build/api:
 	@echo 'Building cmd/api...'
-	go build -ldflags='-s' -o=./bin/api ./cmd/api
-	GOOS=linux GOARCH=amd64 go build -ldflags='-s' -o=./bin/linux_amd64/api ./cmd/api
+	go build -ldflags=${linker_flags} -o=./bin/api ./cmd/api
+	GOOS=linux GOARCH=amd64 go build -ldflags=${linker_flags} -o=./bin/linux_amd64/api ./cmd/api
