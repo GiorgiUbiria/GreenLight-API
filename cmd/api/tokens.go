@@ -45,7 +45,7 @@ func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, 
 		return
 	}
 
-  if !match {
+	if !match {
 		app.invalidCredentialsResponse(w, r)
 		return
 	}

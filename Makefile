@@ -1,3 +1,6 @@
+GO_INSTALL_PATH = $(shell go env GOPATH)
+STATICCHECK_CMD = $(GO_INSTALL_PATH)/bin/staticcheck
+
 include .envrc
 
 ## help: print this help message
@@ -36,3 +39,17 @@ database/up:
 .PHONY: migration/version
 migrations/version:
 	@migrate -path=./migrations -database=$(GREENLIGHT_DB_DSN) version
+
+## audit: tidy dependencies and format, vet and test all code
+.PHONY: audit
+audit:
+	@echo 'Tidying and verifying module dependencies...'
+	go mod tidy
+	go mod verify
+	@echo 'Formatting code...'
+	go fmt ./...
+	@echo 'Vetting code...'
+	go vet ./...
+	$(STATICCHECK_CMD) ./...
+	@echo 'Running tests...'
+	go test -race -vet=off ./...

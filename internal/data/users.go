@@ -205,5 +205,5 @@ AND tokens.expiry > $3`
 }
 
 func (u *User) IsAnonymous() bool {
-  return u == AnonymousUser
+	return u == AnonymousUser
 }

@@ -187,7 +187,7 @@ LIMIT $3 OFFSET $4`, filters.sortColumn(), filters.sortDirection())
 		return nil, Metadata{}, err
 	}
 
-  metadata := calculateMetadata(totalRecords, filters.Page, filters.PageSize)
+	metadata := calculateMetadata(totalRecords, filters.Page, filters.PageSize)
 
 	return movies, metadata, nil
 }

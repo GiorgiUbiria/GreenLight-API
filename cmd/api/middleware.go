@@ -11,9 +11,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/felixge/httpsnoop"
 	"golang.org/x/time/rate"
 	"greenlight.giorgiubiria.ge/internal/data"
-  "github.com/felixge/httpsnoop"
 	"greenlight.giorgiubiria.ge/internal/validator"
 )
 
