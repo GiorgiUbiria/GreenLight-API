@@ -1,7 +1,9 @@
 GO_INSTALL_PATH = $(shell go env GOPATH)
 STATICCHECK_CMD = $(GO_INSTALL_PATH)/bin/staticcheck
+
 current_time = $(shell date --iso-8601=seconds)
-linker_flags = '-s -X main.buildTime=${current_time}'
+git_description = $(shell git describe --always --dirty --tags --long)
+linker_flags = '-s -X main.buildTime=${current_time} -X main.version=${git_description}'
 
 include .envrc
 
