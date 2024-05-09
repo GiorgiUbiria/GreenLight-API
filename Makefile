@@ -11,7 +11,7 @@ confirm:
 ## run/api: run the cmd/api application
 .PHONY: run/api
 run/api:
-	@go run ./cmd/api
+	@go run ./cmd/api -db-dsn=${GREENLIGHT_DB_DSN}
 
 ## api/health: check the health of the app 
 .PHONY: api/health	
