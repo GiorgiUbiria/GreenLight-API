@@ -1,3 +1,6 @@
+# Variables
+
+
 GO_INSTALL_PATH = $(shell go env GOPATH)
 STATICCHECK_CMD = $(GO_INSTALL_PATH)/bin/staticcheck
 
@@ -5,7 +8,11 @@ current_time = $(shell date --iso-8601=seconds)
 git_description = $(shell git describe --always --dirty --tags --long)
 linker_flags = '-s -X main.buildTime=${current_time} -X main.version=${git_description}'
 
+# ENVIRONMENT VARIABLES
+
 include .envrc
+
+# Helpers 
 
 ## help: print this help message
 .PHONY: help
@@ -17,6 +24,8 @@ help:
 confirm:
 	@echo -n 'Are you sure? [y/N] ' && read ans && [ $${ans:-N} = y ]
 
+# Runners
+
 ## run/api: run the cmd/api application
 .PHONY: run/api
 run/api:
@@ -26,6 +35,8 @@ run/api:
 .PHONY: api/health	
 api/health:
 	@curl -i http://localhost:4000/v1/healthcheck
+
+# Migrations
 
 ## migrations/new name=$1: create a new database migration
 .PHONY: migrations/new
@@ -43,6 +54,8 @@ database/up:
 .PHONY: migration/version
 migrations/version:
 	@migrate -path=./migrations -database=$(GREENLIGHT_DB_DSN) version
+
+# Auditing and Vendoring
 
 ## audit: tidy and vendor dependencies and format, vet and test all code
 .PHONY: audit
