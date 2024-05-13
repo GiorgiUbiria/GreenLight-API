@@ -1,6 +1,5 @@
 # Variables
 
-
 GO_INSTALL_PATH = $(shell go env GOPATH)
 STATICCHECK_CMD = $(GO_INSTALL_PATH)/bin/staticcheck
 
